@@ -1,0 +1,27 @@
+services:
+  web:
+    build: .
+    container_name: notes-devops-web
+    ports:
+      - "5000:5000"
+    restart: always
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: notes-devops-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - web
+    restart: always
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: notes-devops-grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    restart: always

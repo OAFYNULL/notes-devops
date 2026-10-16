@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-devops-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notes-devops
+  template:
+    metadata:
+      labels:
+        app: notes-devops
+    spec:
+      containers:
+        - name: notes-devops-container
+          image: notes-devops-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000

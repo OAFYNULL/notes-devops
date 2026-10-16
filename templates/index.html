@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes — Мои заметки</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Notes</h1>
+            <p class="subtitle">Простое веб-приложение для управления заметками</p>
+        </header>
+
+        <form action="{{ url_for('add_note') }}" method="post" class="add-form">
+            <input type="text" name="note" placeholder="Введите текст заметки..." required maxlength="200">
+            <button type="submit">Добавить</button>
+        </form>
+
+        {% if notes %}
+        <ul class="notes-list">
+            {% for note in notes %}
+            <li class="note-item">
+                <div class="note-text">{{ note.text }}</div>
+                <div class="note-meta">{{ note.created }}</div>
+                <a class="delete-link" href="{{ url_for('delete_note', note_id=note.id) }}"
+                   onclick="return confirm('Удалить заметку?')">Удалить</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty">Заметок пока нет. Добавьте первую заметку!</p>
+        {% endif %}
+
+        <footer>
+            <span>Health: <a href="/health">/health</a></span>
+            <span>Metrics: <a href="/metrics">/metrics</a></span>
+        </footer>
+    </div>
+</body>
+</html>
